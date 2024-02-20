@@ -8,6 +8,8 @@
 {batch_nodes}
 {batch_ranks}
 {batch_timeout}
+{cpu_partition}
+#SBATCH -A project_465000810
 
 cd {experiment_run_dir}
 
