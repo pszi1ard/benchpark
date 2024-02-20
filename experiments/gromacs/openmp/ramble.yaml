@@ -22,12 +22,12 @@ ramble:
           variables:
             experiment_setup: ''
             n_ranks: '{processes_per_node} * {n_nodes}'
-            processes_per_node: '4'
-            n_nodes: '2'
-            omp_num_threads: '16'
+            processes_per_node: '64'
+            n_nodes: [ 1, 2 ]
+            omp_num_threads: '2'
             target: 'cpu'
           experiments:
-            gromacs_water_gmx50_adac_size{size}_dlb{dlb}_pin{pin}_target{target}_maxh{maxh}_nsteps{nsteps}_nstlist{nstlist}_npme{npme}:
+            gromacs_water_gmx50_N{n_nodes}_R{n_ranks}_adac_size{size}_dlb{dlb}_pin{pin}_target{target}_maxh{maxh}_nsteps{nsteps}_nstlist{nstlist}_npme{npme}:
               variables:
                 dlb: 'no'
                 pin: 'off'
@@ -36,7 +36,7 @@ ramble:
                 bonded: '{target}'
                 update: '{target}'
                 maxh: '0.05'
-                nsteps: '1000'
+                nsteps: '-1'
                 nstlist: '200'
                 npme: '0'
                 size: '1536'
