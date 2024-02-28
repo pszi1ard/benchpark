@@ -1,0 +1,72 @@
+# Copyright 2023 Lawrence Livermore National Security, LLC and other
+# Benchpark Project Developers. See the top-level COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+ramble:
+  config:
+    deprecated: true
+    spack_flags:
+      install: '--add --keep-stage'
+      concretize: '-U -f'
+
+  applications:
+    gromacs:
+      workloads:
+        water_gmx50_adac:
+          env_vars:
+            set:
+              OMP_PROC_BIND: close
+              OMP_PLACES: threads
+              OMP_NUM_THREADS: '{omp_num_threads}'
+          variables:
+            experiment_setup: ''
+            n_ranks: '{processes_per_node} * {n_nodes}'
+            processes_per_node: '2'
+            n_nodes: '1'
+            omp_num_threads: '7'
+            target: 'gpu'
+          experiments:
+            gromacs_water_gmx50_adac_size{size}_dlb{dlb}_pin{pin}_target{target}_maxh{maxh}_nsteps{nsteps}_nstlist{nstlist}_npme{npme}:
+              variables:
+                dlb: 'no'
+                pin: 'off'
+                nb: '{target}'
+                pme: 'auto'
+                bonded: 'cpu'
+                update: '{target}'
+                maxh: '0.05'
+                nsteps: '-1'
+                nstlist: '200'
+                npme: '1'
+                size: '1536'
+
+  spack:
+    concretized: true
+    packages:
+      gromacs:
+        spack_spec: gromacs@2023.4 +mpi+openmp+sycl+rocm amdgpu_target={rocm_arch} # ^fftw~mpi ^cray-libsci ^hipsycl
+        compiler: compiler-rocmcc
+      hipsycl:
+        #spack_spec: hipsycl@23.10 +rocm -cuda amdgpu_target={rocm_arch}
+        spack_spec: hipsycl +rocm -cuda amdgpu_target={rocm_arch}
+        compiler: compiler-rocmcc
+      hip:
+        spack_spec: hip@5.6.1
+      hsa-rocr-dev:
+        spack_spec: hsa-rocr-dev@5.6.1
+      fftw:
+        spack_spec:  fftw@3.3.10 ~mpi~openmp
+        compiler: compiler-rocmcc
+          #  compiler: default-compiler
+    environments:
+      gromacs:
+        packages:
+        - hip
+        - hipsycl
+        - hsa-rocr-dev
+        - blas
+        - lapack
+        - default-mpi
+        - fftw
+        - gromacs
