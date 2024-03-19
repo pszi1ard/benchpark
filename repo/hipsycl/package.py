@@ -78,9 +78,12 @@ class Hipsycl(CMakePackage, ROCmPackage):
     def cmake_args(self):
         spec = self.spec
         args = [
-            "-DWITH_CPU_BACKEND:Bool=TRUE",
+            "-DWITH_CPU_BACKEND:Bool={0}".format("TRUE" if "+acc_cpu" in spec else "FALSE"),
             "-DWITH_ROCM_BACKEND:Bool={0}".format("TRUE" if "+rocm" in spec else "FALSE"),
             "-DWITH_CUDA_BACKEND:Bool={0}".format("TRUE" if "+cuda" in spec else "FALSE"),
+            "-DWITH_OPENCL_BACKEND:Bool={0}".format("TRUE" if "+opencl" in spec else "FALSE"),
+            "-DWITH_LEVEL_ZERO_BACKEND:Bool={0}".format("TRUE" if "+l0" in spec else "FALSE"),
+            "-DWITH_SSCP_COMPILER:Bool={0}".format("TRUE" if "+sscp" in spec else "FALSE"),
             # prevent hipSYCL's cmake to look for other LLVM installations
             # if the specified one isn't compatible
             "-DDISABLE_LLVM_VERSION_CHECK:Bool=TRUE",
