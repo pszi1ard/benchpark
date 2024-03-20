@@ -124,7 +124,7 @@ compilers:
         flags: {}
         operating_system: sles15
         target: any
-        modules: []
+        modules: [gcc/11.2.0]
         environment:
           set:
             RFE_811452_DISABLE: '1'
