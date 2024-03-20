@@ -217,3 +217,23 @@ packages:
     externals:
     - prefix: /appl/lumi/SW/CrayEnv/EB/rocm/5.6.1
       spec: roctracer-dev@5.6.1
+  python:
+    buildable: false
+    externals:
+    - prefix: /opt/cray/pe/python/3.10.10
+      spec: python@3.10.10
+  boost:
+    buildable: true
+    externals:
+    - prefix: /appl/lumi/SW/LUMI-23.09/G/EB/Boost/1.82.0-cpeGNU-23.09
+      spec: boost@1.82.0
+  libxml2:
+    buildable: false
+    externals:
+    - prefix: /appl/lumi/SW/LUMI-23.09/G/EB/libxml2/2.11.4-cpeGNU-23.09
+      spec: libxml@2.11.4%gcc
+  ncurses:
+    buildable: true
+    externals:
+    - prefix: /appl/lumi/SW/LUMI-23.09/L/EB/ncurses/6.4-cpeGNU-23.09
+      spec: ncurses@6.4%gnu
